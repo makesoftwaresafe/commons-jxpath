@@ -81,18 +81,14 @@ public class AttributeContext extends EvalContext {
             if (nodeTest instanceof NodeNameTest) {
                 name = ((NodeNameTest) nodeTest).getNodeName();
             }
-            else {
-                if (nodeTest instanceof NodeTypeTest
-                        && ((NodeTypeTest) nodeTest).getNodeType() == Compiler.NODE_TYPE_NODE) {
-                    name = WILDCARD;
-                }
-                else {
-                    iterator = null;
-                    return false;
-                }
+            else if (nodeTest instanceof NodeTypeTest && ((NodeTypeTest) nodeTest).getNodeType() == Compiler.NODE_TYPE_NODE) {
+                name = WILDCARD;
             }
-            iterator = parentContext.getCurrentNodePointer().attributeIterator(
-                    name);
+            else {
+                iterator = null;
+                return false;
+            }
+            iterator = parentContext.getCurrentNodePointer().attributeIterator(name);
         }
         if (iterator == null) {
             return false;
